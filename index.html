@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danayal &mdash; Portfolio</title>
+  <style>
+    /* ── Reset & Base ─────────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --border: #334155;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, .15);
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --heading: #f8fafc;
+      --radius: 12px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; transition: opacity .2s; }
+    a:hover { opacity: .8; }
+    img { display: block; max-width: 100%; }
+
+    /* ── Navigation ───────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      background: rgba(15, 23, 42, .8);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .9rem 1.5rem;
+    }
+    .nav-logo { font-weight: 700; font-size: 1.25rem; color: var(--heading); }
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
+    .nav-links a { color: var(--text-muted); font-size: .95rem; font-weight: 500; }
+    .nav-links a:hover { color: var(--accent); opacity: 1; }
+
+    /* ── Hero ─────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 6rem 1.5rem 4rem;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% -20%, var(--accent-glow), transparent);
+    }
+    .hero h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); color: var(--heading); margin-bottom: .5rem; }
+    .hero .tagline {
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem;
+    }
+    .hero .cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .75rem 1.6rem; border-radius: 9999px; font-weight: 600;
+      font-size: .95rem; transition: transform .15s, box-shadow .25s;
+      cursor: pointer; border: none;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--accent); color: var(--bg); box-shadow: 0 0 24px var(--accent-glow); }
+    .btn-outline {
+      background: transparent; color: var(--accent);
+      border: 1.5px solid var(--accent);
+    }
+
+    /* ── Section scaffolding ──────────────────────────────── */
+    section { padding: 5rem 1.5rem; }
+    .container { max-width: 1100px; margin: auto; }
+    .section-label {
+      text-transform: uppercase; font-size: .8rem; letter-spacing: 3px;
+      color: var(--accent); font-weight: 700; margin-bottom: .5rem;
+    }
+    .section-title { font-size: 2rem; color: var(--heading); margin-bottom: 2.5rem; }
+
+    /* ── About ────────────────────────────────────────────── */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+      align-items: center;
+    }
+    .about-avatar {
+      width: 260px; height: 260px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #818cf8);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 6rem; color: var(--bg); font-weight: 700;
+      margin: auto;
+      box-shadow: 0 0 60px var(--accent-glow);
+    }
+    .about-text p { margin-bottom: 1rem; color: var(--text-muted); }
+    .about-text p strong { color: var(--text); }
+
+    /* ── Skills ───────────────────────────────────────────── */
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1.2rem;
+    }
+    .skill-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem; text-align: center;
+      transition: border-color .25s, transform .2s;
+    }
+    .skill-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .skill-icon { font-size: 2rem; margin-bottom: .5rem; }
+    .skill-name { font-weight: 600; color: var(--heading); font-size: .95rem; }
+
+    /* ── Projects ─────────────────────────────────────────── */
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      transition: border-color .25s, transform .2s;
+    }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .project-banner {
+      height: 160px; display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+    }
+    .project-body { padding: 1.5rem; }
+    .project-body h3 { color: var(--heading); margin-bottom: .4rem; }
+    .project-body p { color: var(--text-muted); font-size: .9rem; margin-bottom: 1rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .tag {
+      font-size: .75rem; padding: .25rem .7rem; border-radius: 9999px;
+      background: var(--accent-glow); color: var(--accent); font-weight: 600;
+    }
+
+    /* ── Contact ──────────────────────────────────────────── */
+    .contact-wrapper { text-align: center; max-width: 600px; margin: auto; }
+    .contact-wrapper p { color: var(--text-muted); margin-bottom: 2rem; }
+    .social-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+    .social-link {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .65rem 1.4rem; border-radius: var(--radius);
+      border: 1px solid var(--border); color: var(--text);
+      font-weight: 500; font-size: .95rem;
+      transition: border-color .25s, transform .2s;
+    }
+    .social-link:hover { border-color: var(--accent); transform: translateY(-2px); opacity: 1; }
+
+    /* ── Footer ───────────────────────────────────────────── */
+    footer {
+      text-align: center; padding: 2rem 1.5rem;
+      border-top: 1px solid var(--border); color: var(--text-muted); font-size: .85rem;
+    }
+
+    /* ── Responsive ───────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; text-align: center; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .nav-links { gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── Nav ─────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <span class="nav-logo">D.</span>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ─── Hero ────────────────────────────────────────────── -->
+<section class="hero">
+  <div>
+    <h1>Hi, I'm Danayal</h1>
+    <p class="tagline">Software developer &amp; tech enthusiast building things that matter.</p>
+    <div class="cta-group">
+      <a href="#projects" class="btn btn-primary">View My Work</a>
+      <a href="#contact" class="btn btn-outline">Get In Touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── About ───────────────────────────────────────────── -->
+<section id="about">
+  <div class="container">
+    <p class="section-label">About</p>
+    <h2 class="section-title">A little about me</h2>
+    <div class="about-grid">
+      <div class="about-avatar">D</div>
+      <div class="about-text">
+        <p>
+          I'm <strong>Danayal</strong> &mdash; a developer who loves turning ideas into clean,
+          functional software. I enjoy working across the stack, from crafting
+          smooth front-end experiences to building reliable back-end systems.
+        </p>
+        <p>
+          When I'm not coding you'll probably find me following cricket, exploring
+          new tech, or diving into a side project. I believe great software is
+          built with curiosity, collaboration, and attention to detail.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Skills ──────────────────────────────────────────── -->
+<section id="skills" style="background: var(--surface);">
+  <div class="container">
+    <p class="section-label">Skills</p>
+    <h2 class="section-title">What I work with</h2>
+    <div class="skills-grid">
+      <div class="skill-card"><div class="skill-icon">&#x1F310;</div><div class="skill-name">HTML &amp; CSS</div></div>
+      <div class="skill-card"><div class="skill-icon">&#x26A1;</div><div class="skill-name">JavaScript</div></div>
+      <div class="skill-card"><div class="skill-icon">&#x269B;&#xFE0F;</div><div class="skill-name">React</div></div>
+      <div class="skill-card"><div class="skill-icon">&#x1F40D;</div><div class="skill-name">Python</div></div>
+      <div class="skill-card"><div class="skill-icon">&#x1F5C4;&#xFE0F;</div><div class="skill-name">Databases</div></div>
+      <div class="skill-card"><div class="skill-icon">&#x2601;&#xFE0F;</div><div class="skill-name">Cloud / DevOps</div></div>
+      <div class="skill-card"><div class="skill-icon">&#x1F4CA;</div><div class="skill-name">Data Analysis</div></div>
+      <div class="skill-card"><div class="skill-icon">&#x1F6E0;&#xFE0F;</div><div class="skill-name">Git &amp; CI/CD</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Projects ────────────────────────────────────────── -->
+<section id="projects">
+  <div class="container">
+    <p class="section-label">Projects</p>
+    <h2 class="section-title">Things I've built</h2>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-banner" style="background: linear-gradient(135deg, #0ea5e9, #6366f1);">&#x1F3CF;</div>
+        <div class="project-body">
+          <h3>Cricket Stats Dashboard</h3>
+          <p>An interactive dashboard for tracking and visualizing cricket performance data and match statistics.</p>
+          <div class="tags">
+            <span class="tag">JavaScript</span>
+            <span class="tag">Data Viz</span>
+            <span class="tag">API</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-banner" style="background: linear-gradient(135deg, #8b5cf6, #ec4899);">&#x1F4BB;</div>
+        <div class="project-body">
+          <h3>Portfolio Site</h3>
+          <p>This very site &mdash; a clean, responsive portfolio built from scratch with vanilla HTML &amp; CSS.</p>
+          <div class="tags">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">Design</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-banner" style="background: linear-gradient(135deg, #14b8a6, #22d3ee);">&#x1F527;</div>
+        <div class="project-body">
+          <h3>Dev Toolbox</h3>
+          <p>A collection of handy developer utilities &mdash; formatters, converters, and quick-reference tools.</p>
+          <div class="tags">
+            <span class="tag">Python</span>
+            <span class="tag">React</span>
+            <span class="tag">Open Source</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── Contact ─────────────────────────────────────────── -->
+<section id="contact" style="background: var(--surface);">
+  <div class="container">
+    <div class="contact-wrapper">
+      <p class="section-label">Contact</p>
+      <h2 class="section-title">Let's connect</h2>
+      <p>I'm always open to chatting about new projects, ideas, or opportunities. Drop me a line!</p>
+      <div class="social-links">
+        <a href="https://github.com/Danayal" class="social-link" target="_blank" rel="noopener">&#x1F4E6; GitHub</a>
+        <a href="mailto:danayal@example.com" class="social-link">&#x2709;&#xFE0F; Email</a>
+        <a href="https://linkedin.com/in/" class="social-link" target="_blank" rel="noopener">&#x1F4BC; LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Footer ──────────────────────────────────────────── -->
+<footer>
+  <p>&copy; 2026 Danayal. Built with care.</p>
+</footer>
+
+</body>
+</html>
